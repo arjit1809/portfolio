@@ -1,0 +1,269 @@
+/* ============================================================
+   cursor.css  —  Custom Cursor System
+   Production-ready · 60fps · Glassmorphism / Neon aesthetic
+   ============================================================ */
+
+/* ── 0. Hide native cursor everywhere ─────────────────────── */
+@media (hover: hover) and (pointer: fine) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
+}
+
+/* ── 1. Outer ring (follower) ──────────────────────────────── */
+#cursor-outer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+  opacity: 0;
+
+  /* Default size */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  /* Glassmorphism ring */
+  background: rgba(139, 92, 246, 0.06);
+  border: 1.5px solid rgba(139, 92, 246, 0.55);
+  box-shadow:
+    0 0 12px rgba(139, 92, 246, 0.25),
+    inset 0 0 8px rgba(139, 92, 246, 0.08);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+
+  /* Smooth shape / size transitions */
+  transition:
+    width          0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    height         0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    border-radius  0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    background     0.35s ease,
+    border-color   0.25s ease,
+    box-shadow     0.35s ease,
+    opacity        0.4s ease;
+
+  /* blend mode for contrast on any background */
+  mix-blend-mode: normal;
+}
+
+/* ── 2. Inner dot (core pointer) ───────────────────────────── */
+#cursor-inner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  pointer-events: none;
+  will-change: transform;
+  opacity: 0;
+
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+
+  /* Neon violet fill */
+  background: radial-gradient(
+    circle at 35% 35%,
+    rgba(196, 165, 255, 1) 0%,
+    rgba(139, 92, 246, 1)  50%,
+    rgba(109, 40, 217, 1)  100%
+  );
+  box-shadow:
+    0 0 8px  rgba(139, 92, 246, 0.9),
+    0 0 20px rgba(139, 92, 246, 0.5),
+    0 0 40px rgba(139, 92, 246, 0.2);
+
+  transition:
+    width         0.25s cubic-bezier(0.23, 1, 0.32, 1),
+    height        0.25s cubic-bezier(0.23, 1, 0.32, 1),
+    border-radius 0.25s cubic-bezier(0.23, 1, 0.32, 1),
+    background    0.25s ease,
+    box-shadow    0.25s ease,
+    opacity       0.4s ease;
+}
+
+/* ── 3. Label badge ────────────────────────────────────────── */
+#cursor-label {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10001;
+  pointer-events: none;
+  will-change: transform;
+
+  /* Pill badge */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  padding: 4px 12px;
+  border-radius: 99px;
+
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+
+  background: rgba(109, 40, 217, 0.85);
+  border: 1px solid rgba(196, 165, 255, 0.35);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  /* Show only when text populated by JS */
+  opacity: 0;
+  transition: opacity 0.25s ease;
+
+  /* Sit 28px below the cursor centre */
+  margin-top: 28px;
+}
+
+/* ── 4. State: BUTTON ──────────────────────────────────────── */
+#cursor-outer[data-state="button"] {
+  width: 56px;
+  height: 56px;
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(196, 165, 255, 0.8);
+  box-shadow:
+    0 0 20px rgba(139, 92, 246, 0.45),
+    inset 0 0 14px rgba(139, 92, 246, 0.15);
+}
+
+#cursor-inner[data-state="button"] {
+  width: 12px;
+  height: 12px;
+  box-shadow:
+    0 0 14px rgba(139, 92, 246, 1),
+    0 0 30px rgba(139, 92, 246, 0.7),
+    0 0 60px rgba(139, 92, 246, 0.3);
+}
+
+/* ── 5. State: LINK ────────────────────────────────────────── */
+#cursor-outer[data-state="link"] {
+  width: 52px;
+  height: 52px;
+  background: transparent;
+  border: 1.5px solid rgba(196, 165, 255, 0.65);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.35);
+}
+
+#cursor-inner[data-state="link"] {
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #d8b4fe 0%, #7c3aed 70%);
+  box-shadow:
+    0 0 10px rgba(196, 165, 255, 0.9),
+    0 0 25px rgba(139, 92, 246, 0.5);
+}
+
+/* ── 6. State: TEXT  (I-beam morph) ───────────────────────── */
+#cursor-outer[data-state="text"] {
+  width: 3px;
+  height: 36px;
+  border-radius: 2px;
+  background: rgba(139, 92, 246, 0.5);
+  border-color: rgba(196, 165, 255, 0.8);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+#cursor-inner[data-state="text"] {
+  width: 4px;
+  height: 4px;
+  opacity: 0;
+}
+
+/* ── 7. State: CARD ────────────────────────────────────────── */
+#cursor-outer[data-state="card"] {
+  width: 72px;
+  height: 72px;
+  background: rgba(139, 92, 246, 0.14);
+  border: 1.5px solid rgba(196, 165, 255, 0.55);
+  box-shadow:
+    0 0 28px rgba(139, 92, 246, 0.4),
+    inset 0 0 20px rgba(139, 92, 246, 0.1);
+}
+
+#cursor-inner[data-state="card"] {
+  width: 6px;
+  height: 6px;
+  opacity: 0.4;
+}
+
+/* ── 8. State: IMAGE ───────────────────────────────────────── */
+#cursor-outer[data-state="image"] {
+  width: 72px;
+  height: 72px;
+  background: rgba(139, 92, 246, 0.18);
+  border: 1.5px solid rgba(196, 165, 255, 0.6);
+  box-shadow: 0 0 32px rgba(139, 92, 246, 0.45);
+  border-radius: 16px;
+}
+
+#cursor-inner[data-state="image"] {
+  border-radius: 3px;
+  width: 6px;
+  height: 6px;
+  opacity: 0.5;
+}
+
+/* ── 9. Click burst animation ──────────────────────────────── */
+.cursor-click {
+  animation: cursorClickBurst 0.35s cubic-bezier(0.23, 1, 0.32, 1) forwards !important;
+}
+
+@keyframes cursorClickBurst {
+  0%   { transform: translate(var(--tx, 0), var(--ty, 0)) translate(-50%, -50%) scale(1); }
+  40%  { transform: translate(var(--tx, 0), var(--ty, 0)) translate(-50%, -50%) scale(2.5); opacity: 0.6; }
+  100% { transform: translate(var(--tx, 0), var(--ty, 0)) translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* ── 10. Ripple keyframe (injected by JS via inline animation) */
+@keyframes cursorRipple {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.8;
+  }
+  100% {
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+  }
+}
+
+/* ── 11. Mobile: restore default cursor ────────────────────── */
+@media (hover: none), (pointer: coarse) {
+  #cursor-inner,
+  #cursor-outer,
+  #cursor-label,
+  #cursor-trail-container {
+    display: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    cursor: auto !important;
+  }
+}
+
+/* ── 12. Reduced-motion accessibility ──────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  #cursor-inner,
+  #cursor-outer,
+  #cursor-label,
+  #cursor-trail-container {
+    display: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    cursor: auto !important;
+  }
+}
