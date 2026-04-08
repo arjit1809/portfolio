@@ -47,7 +47,7 @@ export default function EducationSection() {
   }, [])
 
   return (
-    <section id="education" ref={sectionRef} className="py-32 px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
+    <section id="education" ref={sectionRef} className="py-20 sm:py-32 px-4 sm:px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
       <div className="edu-reveal flex items-center gap-3 mb-4" style={{ opacity: 0 }}>
         <div className="h-px w-8 bg-violet-500" />
         <span className="text-violet-600 dark:text-violet-400 text-xs font-bold tracking-widest uppercase">Academic Journey</span>
@@ -67,9 +67,9 @@ export default function EducationSection() {
         </span>
       </h2>
 
-      <div className="relative border-l border-violet-200 dark:border-white/10 ml-4 md:ml-6 space-y-12">
+      <div className="relative border-l border-violet-200 dark:border-white/10 ml-3 md:ml-6 space-y-10 md:space-y-12">
         {EDUCATION.map((item, i) => (
-          <div key={i} className="edu-reveal relative pl-8 md:pl-12" style={{ opacity: 0 }}>
+          <div key={i} className="edu-reveal relative pl-7 md:pl-12" style={{ opacity: 0 }}>
             {/* Timeline Dot */}
             <div className="absolute -left-[18px] top-1 w-9 h-9 rounded-full bg-slate-50 dark:bg-[#050508] border border-violet-500/30 flex items-center justify-center text-violet-500 dark:text-violet-400">
               <item.icon size={16} />

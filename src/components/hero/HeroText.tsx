@@ -84,11 +84,11 @@ export default function HeroText() {
   return (
     <div
       ref={wrapRef}
-      className="relative z-10 flex flex-col items-center text-center justify-center h-full max-w-3xl mx-auto px-6 md:px-14 lg:px-20"
+      className="relative z-10 flex flex-col items-center text-center justify-center h-full max-w-3xl mx-auto px-4 sm:px-6 md:px-14 lg:px-20"
     >
       <div className="h-badge flex flex-col items-center gap-4 mb-10" style={{ opacity: 0 }}>
         {/* Profile picture placeholder */}
-        <div className="w-28 h-28 md:w-32 md:h-32 rounded-full border-2 border-violet-500/40 overflow-hidden relative shadow-[0_0_30px_rgba(139,92,246,0.2)] hover:border-violet-400 transition-all duration-300">
+        <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full border-2 border-violet-500/40 overflow-hidden relative shadow-[0_0_30px_rgba(139,92,246,0.2)] hover:border-violet-400 transition-all duration-300">
           <img
             src="/profile.jpeg"
             alt="Arjit"
@@ -143,7 +143,7 @@ export default function HeroText() {
       </p>
 
       {/* CTAs */}
-      <div className="flex flex-wrap justify-center items-center gap-4 mb-12">
+      <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 mb-8 sm:mb-12">
         <a
           className="h-cta flex items-center gap-2 bg-violet-600 hover:bg-violet-500 text-white font-semibold text-sm px-7 py-3.5 rounded-full transition-all duration-300 hover:shadow-2xl hover:shadow-violet-500/30 hover:-translate-y-0.5 active:scale-95 shadow-sm dark:shadow-none"
           href="#work"
@@ -182,7 +182,7 @@ export default function HeroText() {
       </div>
 
       {/* Scroll indicator */}
-      <div className="h-scroll absolute bottom-8 left-16 md:left-20 flex flex-col items-center gap-2" style={{ opacity: 0 }}>
+      <div className="h-scroll absolute bottom-8 left-4 sm:left-16 md:left-20 hidden sm:flex flex-col items-center gap-2" style={{ opacity: 0 }}>
         <span className="text-slate-500 dark:text-slate-600 text-xs tracking-widest uppercase" style={{ writingMode: 'vertical-rl' }}>
           scroll
         </span>

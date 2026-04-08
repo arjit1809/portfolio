@@ -58,7 +58,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" ref={sectionRef} className="py-32 px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
+    <section id="contact" ref={sectionRef} className="py-20 sm:py-32 px-4 sm:px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
       {/* Header */}
       <div className="contact-reveal flex items-center gap-3 mb-4" style={{ opacity: 0 }}>
         <div className="h-px w-8 bg-violet-500" />
@@ -82,7 +82,7 @@ export default function ContactSection() {
         opportunities and interesting conversations.
       </p>
 
-      <div className="grid md:grid-cols-2 gap-16">
+      <div className="grid md:grid-cols-2 gap-10 md:gap-16">
         {/* Info */}
         <div className="space-y-8">
           {[

@@ -73,7 +73,7 @@ export default function WorkSection() {
 
   return (
     <>
-      <section id="work" ref={sectionRef} className="py-32 px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
+      <section id="work" ref={sectionRef} className="py-20 sm:py-32 px-4 sm:px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
         {/* Header */}
         <div className="work-header flex items-center gap-3 mb-4" style={{ opacity: 0 }}>
           <div className="h-px w-8 bg-violet-500" />
@@ -96,7 +96,7 @@ export default function WorkSection() {
         </div>
 
         {/* Grid */}
-        <div className="projects-grid grid md:grid-cols-3 gap-6">
+        <div className="projects-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {PROJECTS.map((project) => (
             <div 
               key={project.id} 

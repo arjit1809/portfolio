@@ -5,6 +5,7 @@ import HeroCanvas from './components/hero/HeroCanvas'
 import HeroText from './components/hero/HeroText'
 import Footer from './components/Footer'
 import CustomCursor from './components/CustomCursor'
+import BackToTop from './components/BackToTop'
 import './styles/cursor.css'
 
 // Lazy-load below-fold sections for better initial paint
@@ -35,6 +36,9 @@ export default function App() {
     <>
       {/* ── Custom Cursor System ──────────────────────────────────────── */}
       <CustomCursor />
+
+      {/* ── Back to Top Button ───────────────────────────────────────── */}
+      <BackToTop />
 
       <Analytics />
       <Navbar />

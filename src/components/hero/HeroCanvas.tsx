@@ -14,8 +14,18 @@ export default function HeroCanvas() {
     mouse.current = [e.clientX - window.innerWidth / 2, e.clientY - window.innerHeight / 2]
   }, [])
 
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0]
+    if (touch) {
+      mouse.current = [touch.clientX - window.innerWidth / 2, touch.clientY - window.innerHeight / 2]
+    }
+  }, [])
+
+  // Responsive 3D position: center on mobile, offset right on desktop
+  const shapeX = typeof window !== 'undefined' && window.innerWidth < 768 ? 0 : 3.5
+
   return (
-    <div className="absolute inset-0" onMouseMove={handleMouseMove}>
+    <div className="absolute inset-0" onMouseMove={handleMouseMove} onTouchMove={handleTouchMove}>
       <Canvas
         camera={{ position: [0, 0, 5], fov: 60 }}
         dpr={[1, 2]}
@@ -37,7 +47,7 @@ export default function HeroCanvas() {
 
         <Suspense fallback={null}>
           <Environment preset="night" />
-          <group position={[3.5, 0, 0]}>
+          <group position={[shapeX, 0, 0]}>
             <GeometricShape mouse={mouse} />
             <ParticleCloud mouse={mouse} />
           </group>

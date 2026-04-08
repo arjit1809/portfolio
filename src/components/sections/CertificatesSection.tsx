@@ -58,7 +58,7 @@ export default function CertificatesSection() {
 
   return (
     <>
-      <section id="certificates" ref={sectionRef} className="py-32 px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
+      <section id="certificates" ref={sectionRef} className="py-20 sm:py-32 px-4 sm:px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
         {/* Header */}
         <div className="cert-header flex items-center gap-3 mb-4" style={{ opacity: 0 }}>
           <div className="h-px w-8 bg-violet-500" />
@@ -81,7 +81,7 @@ export default function CertificatesSection() {
         </div>
 
         {/* Grid */}
-        <div className="certs-grid grid md:grid-cols-3 gap-6">
+        <div className="certs-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
           {CERTIFICATES.map((cert) => (
             <div 
               key={cert.id} 

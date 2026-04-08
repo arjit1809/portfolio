@@ -51,7 +51,7 @@ export default function AboutSection() {
   }, [])
 
   return (
-    <section id="about" ref={sectionRef} className="py-32 px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
+    <section id="about" ref={sectionRef} className="py-20 sm:py-32 px-4 sm:px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
 
       {/* ─── PERSONAL INFO SECTION ─── */}
       <div className="flex flex-col lg:flex-row items-stretch justify-between gap-12 mb-24">

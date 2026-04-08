@@ -42,7 +42,7 @@ export default function ResumeSection() {
 
   return (
     <>
-      <section id="resume" ref={sectionRef} className="py-24 px-6 md:px-14 lg:px-20 max-w-4xl mx-auto">
+      <section id="resume" ref={sectionRef} className="py-16 sm:py-24 px-4 sm:px-6 md:px-14 lg:px-20 max-w-4xl mx-auto">
         <div className="bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden shadow-sm dark:shadow-none">
           
           {/* Background ambient glow (dark mode) */}
