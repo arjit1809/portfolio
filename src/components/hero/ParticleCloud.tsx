@@ -5,15 +5,16 @@ import * as THREE from 'three'
 
 interface Props {
   mouse: React.MutableRefObject<[number, number]>
+  isMobile?: boolean
 }
 
-export default function ParticleCloud({ mouse }: Props) {
+export default function ParticleCloud({ mouse, isMobile }: Props) {
   const ref = useRef<THREE.Points>(null)
   const { viewport } = useThree()
 
   // Generate random particle positions in a sphere
   const positions = useMemo(() => {
-    const count = 2200
+    const count = isMobile ? 600 : 2200
     const arr = new Float32Array(count * 3)
     for (let i = 0; i < count; i++) {
       const r = 6 + Math.random() * 8

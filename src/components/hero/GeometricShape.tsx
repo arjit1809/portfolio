@@ -5,6 +5,7 @@ import type { Mesh } from 'three'
 
 interface Props {
   mouse: React.MutableRefObject<[number, number]>
+  isMobile?: boolean
 }
 
 const COLORS = {
@@ -12,7 +13,7 @@ const COLORS = {
   emissive: '#4c1d95',
 }
 
-export default function GeometricShape({ mouse }: Props) {
+export default function GeometricShape({ mouse, isMobile }: Props) {
   const meshRef = useRef<Mesh>(null)
   const matRef = useRef<MeshStandardMaterial>(null)
 
@@ -38,8 +39,8 @@ export default function GeometricShape({ mouse }: Props) {
 
   return (
     <mesh ref={meshRef} castShadow>
-      {/* Torus Knot — dramatic and intricate shape */}
-      <torusKnotGeometry args={[1.1, 0.38, 200, 32, 2, 3]} />
+      {/* Torus Knot — lower segments on mobile for performance */}
+      <torusKnotGeometry args={[1.1, 0.38, isMobile ? 64 : 200, isMobile ? 16 : 32, 2, 3]} />
       <meshStandardMaterial
         ref={matRef}
         color={COLORS.base}

@@ -106,23 +106,30 @@ export default function CertificatesSection() {
       {/* Lightbox Modal */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-50/95 dark:bg-[#050508]/95 backdrop-blur-xl p-4 md:p-12 transition-all duration-300"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-50/95 dark:bg-[#050508]/95 backdrop-blur-xl transition-all duration-300"
           onClick={() => setSelectedImage(null)}
         >
+          {/* Close button — large tap target on mobile */}
           <button 
-            className="absolute top-6 right-6 md:top-10 md:right-10 text-slate-600 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 transition-colors p-3 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10 rounded-full z-50 shadow-sm dark:shadow-none"
-            onClick={() => setSelectedImage(null)}
+            className="absolute top-4 right-4 md:top-10 md:right-10 text-slate-600 dark:text-white hover:text-violet-600 dark:hover:text-violet-400 active:scale-90 transition-all p-3 bg-white dark:bg-white/10 hover:bg-slate-100 dark:hover:bg-white/20 border border-slate-200 dark:border-white/20 rounded-full z-[110] shadow-lg dark:shadow-none min-w-[48px] min-h-[48px] flex items-center justify-center"
+            onClick={(e) => { e.stopPropagation(); setSelectedImage(null) }}
             title="Close image"
+            aria-label="Close image"
           >
-            <FiX size={26} />
+            <FiX size={24} />
           </button>
-          
+
+          {/* Tap anywhere (including image) to close on mobile */}
           <img 
             src={selectedImage} 
             alt="Fullscreen Certificate" 
-            className="max-w-[95vw] max-h-[90vh] object-contain rounded-lg shadow-2xl dark:shadow-[0_0_50px_rgba(139,92,246,0.2)] border border-slate-200 dark:border-white/10 transition-transform duration-300 scale-100"
-            onClick={(e) => e.stopPropagation()} 
+            className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg shadow-2xl dark:shadow-[0_0_50px_rgba(139,92,246,0.2)] border border-slate-200 dark:border-white/10"
           />
+
+          {/* Mobile hint text */}
+          <p className="absolute bottom-4 left-0 right-0 text-center text-xs text-slate-500 dark:text-slate-400 md:hidden">
+            Tap anywhere to close
+          </p>
         </div>
       )}
     </>
