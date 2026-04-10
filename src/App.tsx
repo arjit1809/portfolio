@@ -1,4 +1,5 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useState } from 'react'
+import LoadingScreen from './components/LoadingScreen'
 import { Analytics } from '@vercel/analytics/react'
 import Navbar from './components/Navbar'
 import HeroCanvas from './components/hero/HeroCanvas'
@@ -32,8 +33,12 @@ function SectionSkeleton() {
 
 /* ─── App ──────────────────────────────────────────────────────────────── */
 export default function App() {
+  const [loading, setLoading] = useState(true)
+
   return (
     <>
+      {/* ── Loading Screen ────────────────────────────────────────────── */}
+      {loading && <LoadingScreen onFinished={() => setLoading(false)} />}
       {/* ── Custom Cursor System ──────────────────────────────────────── */}
       <CustomCursor />
 
