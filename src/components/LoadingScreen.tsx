@@ -28,7 +28,11 @@ export default function LoadingScreen({ onFinished }: LoadingScreenProps) {
 
   useEffect(() => {
     if (phase !== 'crossfade') return
-    videoRef.current?.play().catch(() => {})
+    const vid = videoRef.current
+    if (vid) {
+      vid.playbackRate = 1.75
+      vid.play().catch(() => {})
+    }
     const timer = setTimeout(() => setPhase('end'), 800)
     return () => clearTimeout(timer)
   }, [phase])
