@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, Suspense, useState, useRef, useEffect } from 'react'
 import LoadingScreen from './components/LoadingScreen'
 import { Analytics } from '@vercel/analytics/react'
 import Navbar from './components/Navbar'
@@ -29,6 +29,46 @@ function Divider() {
 /* ─── Section Loading Skeleton ─────────────────────────────────────────── */
 function SectionSkeleton() {
   return <div className="py-32 flex items-center justify-center text-slate-700 text-sm">Loading...</div>
+}
+
+/* ─── Laser Root Video ─────────────────────────────────────────────────── */
+function LaserRootVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoRef.current?.play()
+          } else {
+            videoRef.current?.pause()
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current)
+    }
+
+    return () => { observer.disconnect() }
+  }, [])
+
+  return (
+    <div className="w-full flex justify-center overflow-hidden pointer-events-none relative z-0 -mt-24 md:-mt-48 pb-10">
+      <video
+        ref={videoRef}
+        src="/huly_laser.mp4"
+        loop
+        muted
+        playsInline
+        className="w-full max-w-6xl h-auto object-cover invert mix-blend-multiply dark:invert-0 dark:mix-blend-screen opacity-90 transition-opacity duration-1000"
+        style={{ pointerEvents: 'none' }}
+      />
+    </div>
+  )
 }
 
 /* ─── App ──────────────────────────────────────────────────────────────── */
@@ -96,8 +136,12 @@ export default function App() {
         <Divider />
 
         <Suspense fallback={<SectionSkeleton />}>
-          <ContactSection />
+          <div className="relative z-20">
+            <ContactSection />
+          </div>
         </Suspense>
+
+        <LaserRootVideo />
       </main>
 
       <Footer />

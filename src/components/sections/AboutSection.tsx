@@ -54,7 +54,7 @@ export default function AboutSection() {
     <section id="about" ref={sectionRef} className="py-20 sm:py-32 px-4 sm:px-6 md:px-14 lg:px-20 max-w-7xl mx-auto">
 
       {/* ─── PERSONAL INFO SECTION ─── */}
-      <div className="flex flex-col lg:flex-row items-stretch justify-between gap-12 mb-24">
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-12 mb-24">
         {/* Left Side: Text Content */}
         <div className="flex-1 max-w-3xl flex flex-col justify-center">
           <div className="about-reveal flex items-center gap-3 mb-4" style={{ opacity: 0 }}>
@@ -86,26 +86,21 @@ export default function AboutSection() {
           </p>
         </div>
 
-        {/* Right Side: Running Man Video */}
-        <div className="about-reveal hidden lg:flex relative w-full lg:w-[400px] xl:w-[450px] items-stretch justify-end pointer-events-none rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-lg dark:shadow-[0_0_30px_rgba(139,92,246,0.15)] bg-slate-50 dark:bg-[#050508]" style={{ opacity: 0 }}>
-          {/* Light Theme Video */}
-          <video
-            src="/running.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover object-center block dark:hidden"
-          />
-          {/* Dark Theme Video */}
-          <video
-            src="/running-black.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover object-center hidden dark:block"
-          />
+        {/* Right Side: Visionary Alive Video */}
+        <div className="about-reveal hidden lg:flex w-full lg:w-[400px] xl:w-[450px] justify-end" style={{ opacity: 0 }}>
+          <div className="relative w-[360px] md:w-full rounded-2xl overflow-hidden shadow-2xl dark:shadow-[0_0_40px_rgba(139,92,246,0.3)] border border-violet-100 dark:border-violet-500/20 bg-slate-50 dark:bg-[#050508] animate-float group transition-transform duration-500 hover:scale-[1.02]">
+            {/* Alive pulse/glow overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-violet-500/10 to-indigo-500/10 mix-blend-overlay z-10 pointer-events-none group-hover:opacity-100 opacity-60 transition-opacity duration-300 animate-pulse"></div>
+            
+            <video
+              src="/og.mov"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-auto block relative z-0 rounded-2xl"
+            />
+          </div>
         </div>
       </div>
 
