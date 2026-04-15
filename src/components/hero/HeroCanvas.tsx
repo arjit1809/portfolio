@@ -66,7 +66,7 @@ export default function HeroCanvas() {
         )}
 
         <Suspense fallback={null}>
-          <Environment preset="night" />
+          <Environment preset="city" />
           <group position={[shapeX, 0, 0]}>
             <GeometricShape mouse={mouse} isMobile={isMobile} />
             <ParticleCloud mouse={mouse} isMobile={isMobile} />

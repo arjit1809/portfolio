@@ -59,7 +59,7 @@ function ParticleSwarm({ isMobile }: { isMobile: boolean }) {
   )
 
   useFrame((state) => {
-    if (!meshRef.current) return
+    if (!meshRef.current || positionsRef.current.length === 0) return
     const time  = state.clock.getElapsedTime() * speedMult
     const zoom   = PARAMS.zoom
     const swirl  = PARAMS.swirl
