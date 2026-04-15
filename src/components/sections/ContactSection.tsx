@@ -9,7 +9,16 @@ gsap.registerPlugin(ScrollTrigger)
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || ''
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+
+// Prevent crash if env vars are missing
+let supabase: any = null
+if (SUPABASE_URL && SUPABASE_KEY) {
+  try {
+    supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+  } catch (err) {
+    console.error('Failed to init Supabase:', err)
+  }
+}
 
 export default function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -40,6 +49,12 @@ export default function ContactSection() {
     e.preventDefault()
     setStatus('sending')
     setErrorMsg(null)
+
+    if (!supabase) {
+      setErrorMsg("Contact form is currently offline. Please email me directly at arjit9b@gmail.com")
+      setStatus('error')
+      return
+    }
 
     const { error } = await supabase
       .from('contacts')

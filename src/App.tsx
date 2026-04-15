@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState, useRef, useEffect } from 'react'
 import LoadingScreen from './components/LoadingScreen'
-import { Analytics } from '@vercel/analytics/react'
+// import { Analytics } from '@vercel/analytics/react'
 import Navbar from './components/Navbar'
 import HeroCanvas from './components/hero/HeroCanvas'
 import HeroText from './components/hero/HeroText'
@@ -138,7 +138,7 @@ export default function App() {
       {/* ── Back to Top Button ───────────────────────────────────────── */}
       <BackToTop />
 
-      <Analytics />
+      {/* <Analytics /> */}
       <Navbar />
 
       {/* ── Hero ──────────────────────────────────────────────────────── */}
