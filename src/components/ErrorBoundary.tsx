@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react'
+import { Component, type ErrorInfo, type ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
@@ -39,15 +39,16 @@ export default class ErrorBoundary extends Component<Props, State> {
           <pre style={{ fontSize: '12px', color: '#888' }}>
             {this.state.error?.stack}
           </pre>
-          <button 
+          <button
             onClick={() => window.location.reload()}
-            style={{ 
-              marginTop: '20px', 
-              padding: '10px 20px', 
-              backgroundColor: '#333', 
-              color: '#fff', 
-              border: 'none', 
-              borderRadius: '4px' 
+            style={{
+              marginTop: '20px',
+              padding: '10px 20px',
+              backgroundColor: '#333',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
             }}
           >
             Reload Page
@@ -56,6 +57,6 @@ export default class ErrorBoundary extends Component<Props, State> {
       )
     }
 
-    return this.children
+    return this.props.children
   }
 }
