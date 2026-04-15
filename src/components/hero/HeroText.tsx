@@ -86,7 +86,7 @@ export default function HeroText() {
       ref={wrapRef}
       className="relative z-10 flex flex-col items-center text-center justify-center h-full max-w-3xl mx-auto px-4 sm:px-6 md:px-14 lg:px-20"
     >
-      <div className="h-badge flex flex-col items-center gap-4 mb-10" style={{ opacity: 0 }}>
+      <div className="h-badge flex flex-col items-center gap-4 mb-10 pt-16 sm:pt-24" style={{ opacity: 0 }}>
         {/* Profile picture placeholder */}
         <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full border-2 border-violet-500/40 overflow-hidden relative shadow-[0_0_30px_rgba(139,92,246,0.2)] hover:border-violet-400 transition-all duration-300">
           <img
@@ -103,14 +103,14 @@ export default function HeroText() {
       </div>
 
       {/* Heading */}
-      <div className="overflow-hidden mb-1">
-        <h1 className="h-line text-[clamp(3rem,7vw,6rem)] font-black text-slate-900 dark:text-white leading-[0.92] tracking-tight" style={{ opacity: 0 }}>
+      <div className="overflow-hidden -mb-2">
+        <h1 className="h-line text-[clamp(2.5rem,7vw,6rem)] font-black text-slate-900 dark:text-white leading-tight tracking-tight pt-0 pb-0" style={{ opacity: 0 }}>
           Hi, I'm
         </h1>
       </div>
-      <div className="overflow-hidden mb-1">
+      <div className="overflow-hidden pb-0 -mb-2">
         <h1
-          className="h-line text-[clamp(3rem,7vw,6rem)] font-black leading-[0.92] tracking-tight"
+          className="h-line text-[clamp(2.5rem,7vw,6rem)] font-black leading-tight tracking-tight pt-0 pb-0"
           style={{
             opacity: 0,
             background: 'linear-gradient(135deg, #a78bfa 0%, #818cf8 50%, #c084fc 100%)',
@@ -122,8 +122,8 @@ export default function HeroText() {
           Arjit
         </h1>
       </div>
-      <div className="overflow-hidden mb-7">
-        <h1 className="h-line text-[clamp(3rem,7vw,6rem)] font-black text-slate-900 dark:text-white leading-[0.92] tracking-tight" style={{ opacity: 0 }}>
+      <div className="overflow-hidden mb-2">
+        <h1 className="h-line text-[clamp(2.5rem,7vw,6rem)] font-black text-slate-900 dark:text-white leading-tight tracking-tight pt-0 pb-0" style={{ opacity: 0 }}>
           &amp; I build
         </h1>
       </div>

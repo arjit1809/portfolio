@@ -13,6 +13,7 @@
  */
 
 import { useEffect, useRef, useCallback } from 'react'
+import gsap from 'gsap'
 
 // ─── Types ────────────────────────────────────────────────────────────────
 
@@ -211,14 +212,6 @@ export function useCustomCursor() {
         const pull = (1 - dist / MAGNETIC_RADIUS) * MAGNETIC_STRENGTH
         bestDx = (cx - mx) * pull
         bestDy = (cy - my) * pull
-
-        // Subtle element scale
-        const scale = 1 + (1 - dist / MAGNETIC_RADIUS) * 0.06
-        btn.style.transform = `scale(${scale})`
-        btn.style.transition = 'transform 0.25s cubic-bezier(.23,1,.32,1)'
-      } else {
-        // Reset element that's no longer in range
-        btn.style.transform = ''
       }
     })
 
@@ -230,6 +223,7 @@ export function useCustomCursor() {
 
   // ── Main RAF loop ─────────────────────────────────────────────────────
 
+  // eslint-disable-next-line react-hooks/immutability
   const tick = useCallback((now: number) => {
     const mx = mouse.current.x
     const my = mouse.current.y
@@ -323,6 +317,24 @@ export function useCustomCursor() {
         cursorState.current = nextState
         applyState(nextState)
       }
+
+      // GSAP Element Magnetic Pull
+      const btn = target?.closest('button, a[href], [role="button"], [data-magnetic]') as HTMLElement | null
+      if (btn) {
+        const rect = btn.getBoundingClientRect()
+        const x = e.clientX - (rect.left + rect.width / 2)
+        const y = e.clientY - (rect.top + rect.height / 2)
+        gsap.to(btn, { x: x * 0.35, y: y * 0.35, duration: 0.4, ease: 'power2.out' })
+        btn.dataset.isHovered = 'true'
+      }
+
+      // Reset hover for elements we left
+      document.querySelectorAll<HTMLElement>('[data-is-hovered="true"]').forEach(el => {
+        if (el !== btn) {
+          gsap.to(el, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1,0.4)' })
+          delete el.dataset.isHovered
+        }
+      })
     }
 
     const onLeave = () => {

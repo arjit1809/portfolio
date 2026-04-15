@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi'
+import { scramble } from '../utils/scramble'
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
@@ -16,12 +17,9 @@ export default function Navbar() {
   const navRef = useRef<HTMLElement>(null)
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [isDark, setIsDark] = useState(true)
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'))
 
   useEffect(() => {
-    // Check initial theme
-    setIsDark(document.documentElement.classList.contains('dark'))
-
     gsap.fromTo(
       navRef.current,
       { y: -40, opacity: 0 },
@@ -69,9 +67,10 @@ export default function Navbar() {
               <li key={label}>
                 <a
                   href={href}
+                  onMouseEnter={(e) => scramble(e.currentTarget.querySelector('.scramble-text') as HTMLElement)}
                   className="text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-white text-sm font-medium transition-colors duration-200 relative group"
                 >
-                  {label}
+                  <span className="scramble-text relative z-10 block">{label}</span>
                   <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-violet-500 dark:bg-violet-400 group-hover:w-full transition-all duration-300" />
                 </a>
               </li>
@@ -129,6 +128,7 @@ export default function Navbar() {
             key={label}
             href={href}
             onClick={() => setOpen(false)}
+            onMouseEnter={(e) => scramble(e.currentTarget)}
             className="text-slate-900 dark:text-white text-3xl font-bold hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
           >
             {label}

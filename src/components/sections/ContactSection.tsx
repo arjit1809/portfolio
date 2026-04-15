@@ -3,11 +3,12 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FiSend, FiMail, FiMapPin, FiGithub, FiLinkedin, FiX, FiCheckCircle } from 'react-icons/fi'
 import { createClient } from '@supabase/supabase-js'
+import { scramble } from '../../utils/scramble'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const SUPABASE_URL = 'https://ccrnotmxjxyqepdpjkcq.supabase.co'
-const SUPABASE_KEY = 'sb_publishable_LjAL9M1zqkPTs0eDUK-Qew_gqwglzOn'
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || ''
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 export default function ContactSection() {
@@ -67,6 +68,7 @@ export default function ContactSection() {
       <h2 className="contact-reveal text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 leading-tight" style={{ opacity: 0 }}>
         Let's build something{' '}
         <span
+          onMouseEnter={(e) => scramble(e.currentTarget)}
           style={{
             background: 'linear-gradient(135deg, #a78bfa, #818cf8)',
             WebkitBackgroundClip: 'text',

@@ -2,21 +2,23 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FiBookOpen, FiAward } from 'react-icons/fi'
+import { scramble } from '../../utils/scramble'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const EDUCATION = [
   {
-    period: 'Present',
-    degree: 'Bachelors Degree',
-    institution: 'Currently Pursuing',
-    description: 'Focusing on computer science fundamentals, software engineering, and modern web technologies.',
+    period: 'Expected 2029',
+    degree: 'B.Tech CSE (AI/ML)',
+    institution: 'Lovely Professional University',
+    cgpa: 'CGPA: 8.0',
+    description: 'Focusing on computer science fundamentals, software engineering, and modern web technologies. Relevant coursework: Data Structures, Software Engineering, DBMS, ML.',
     icon: FiBookOpen,
   },
   {
     period: 'Completed',
     degree: '10+2 (Higher Secondary)',
-    institution: 'CBSE Board',
+    institution: 'Kendriya Vidyalaya AFS Hakimpet',
     description: 'Completed higher secondary education with a strong foundation in science and mathematics.',
     icon: FiAward,
   },
@@ -56,6 +58,7 @@ export default function EducationSection() {
       <h2 className="edu-reveal text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-16 leading-tight" style={{ opacity: 0 }}>
         My{' '}
         <span
+          onMouseEnter={(e) => scramble(e.currentTarget)}
           style={{
             background: 'linear-gradient(135deg, #a78bfa, #818cf8)',
             WebkitBackgroundClip: 'text',
@@ -80,7 +83,10 @@ export default function EducationSection() {
                 {item.period}
               </span>
               <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">{item.degree}</h3>
-              <p className="text-violet-600 dark:text-violet-400 font-medium mb-4">{item.institution}</p>
+              <div className="mb-4">
+                <p className="text-violet-600 dark:text-violet-400 font-medium">{item.institution}</p>
+                {item.cgpa && <p className="text-slate-700 dark:text-slate-300 font-semibold text-sm mt-1">{item.cgpa}</p>}
+              </div>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base">
                 {item.description}
               </p>

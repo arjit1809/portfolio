@@ -38,9 +38,9 @@ export default function GeometricShape({ mouse, isMobile }: Props) {
   })
 
   return (
-    <mesh ref={meshRef} castShadow>
-      {/* Torus Knot — lower segments on mobile for performance */}
-      <torusKnotGeometry args={[1.1, 0.38, isMobile ? 64 : 200, isMobile ? 16 : 32, 2, 3]} />
+    <mesh ref={meshRef} castShadow={!isMobile}>
+      {/* Torus Knot — crucially lower segments on mobile for performance */}
+      <torusKnotGeometry args={[1.1, 0.38, isMobile ? 48 : 128, isMobile ? 10 : 24, 2, 3]} />
       <meshStandardMaterial
         ref={matRef}
         color={COLORS.base}

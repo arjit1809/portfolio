@@ -13,8 +13,9 @@ export default function ParticleCloud({ mouse, isMobile }: Props) {
   const { viewport } = useThree()
 
   // Generate random particle positions in a sphere
+  // eslint-disable-next-line react-hooks/purity
   const positions = useMemo(() => {
-    const count = isMobile ? 600 : 2200
+    const count = isMobile ? 300 : 1500
     const arr = new Float32Array(count * 3)
     for (let i = 0; i < count; i++) {
       const r = 6 + Math.random() * 8
@@ -25,7 +26,7 @@ export default function ParticleCloud({ mouse, isMobile }: Props) {
       arr[i * 3 + 2] = r * Math.cos(phi)
     }
     return arr
-  }, [])
+  }, [isMobile])
 
   useFrame((_, delta) => {
     if (!ref.current) return

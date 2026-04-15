@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FiDownload, FiEye, FiX } from 'react-icons/fi'
+import { scramble } from '../../utils/scramble'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -58,6 +59,7 @@ export default function ResumeSection() {
             <h2 className="resume-reveal text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 leading-tight" style={{ opacity: 0 }}>
               Grab My{' '}
               <span
+                onMouseEnter={(e) => scramble(e.currentTarget)}
                 style={{
                   background: 'linear-gradient(135deg, #a78bfa, #818cf8)',
                   WebkitBackgroundClip: 'text',
@@ -86,8 +88,8 @@ export default function ResumeSection() {
 
               {/* Download Resume Button */}
               <a
-                href="/resume.docx"
-                download="Arjit_Kumar_Sahu_Resume.docx"
+                href="/resume.pdf"
+                download="Arjit_Kumar_Sahu_Resume.pdf"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold px-8 py-4 border-2 border-violet-600 hover:border-violet-700 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/30 hover:-translate-y-0.5 active:scale-95"
               >
                 <FiDownload size={20} />

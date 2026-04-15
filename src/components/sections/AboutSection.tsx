@@ -1,16 +1,15 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { scramble } from '../../utils/scramble'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const SKILLS = [
-  { category: 'Core Web Magic', items: ['HTML5', 'Modern CSS3', 'JavaScript (ES6+)'] },
-  { category: 'Logic & Data Vault', items: ['Python', 'Advanced DBMS', 'SQL'] },
-]
+
 
 export default function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -29,24 +28,15 @@ export default function AboutSection() {
           },
         }
       )
-
-      // Skill tags pop in
-      gsap.fromTo(
-        '.skill-tag',
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.4,
-          stagger: 0.03,
-          ease: 'back.out(1.4)',
-          scrollTrigger: {
-            trigger: '.skills-wrapper',
-            start: 'top 85%',
-          },
-        }
-      )
     }, sectionRef)
+
+    // Force play for iOS Low Power Mode
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {
+        // Silently catch autoplay block
+      })
+    }
+    
     return () => ctx.revert()
   }, [])
 
@@ -65,6 +55,7 @@ export default function AboutSection() {
           <h2 className="about-reveal text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 leading-tight" style={{ opacity: 0 }}>
             Turning ideas into{' '}
             <span
+              onMouseEnter={(e) => scramble(e.currentTarget)}
               style={{
                 background: 'linear-gradient(135deg, #a78bfa, #818cf8)',
                 WebkitBackgroundClip: 'text',
@@ -76,61 +67,42 @@ export default function AboutSection() {
             </span>
           </h2>
           <p className="about-reveal text-slate-600 dark:text-slate-400 leading-relaxed mb-5" style={{ opacity: 0 }}>
-            I'm a developer passionate about pushing the boundaries of what's possible on the web.
-            I specialize in building performant, visually stunning applications that leave a lasting impression.
+            I'm a 2nd-year AI/ML student at Lovely Professional University, passionate about pushing the boundaries of what's possible on the web. I specialize in building performant, visually stunning applications that leave a lasting impression.
           </p>
-          <p className="about-reveal text-slate-600 dark:text-slate-400 leading-relaxed" style={{ opacity: 0 }}>
-            When I'm not shipping code, I'm exploring generative art, contributing to open-source,
-            or experimenting with new technologies. I believe the best products sit at the intersection
-            of technical excellence and design obsession.
+          <p className="about-reveal text-slate-600 dark:text-slate-400 leading-relaxed mb-6" style={{ opacity: 0 }}>
+            Beyond writing code, I have a deep interest in entrepreneurship—whether it's building hostel-focused products to solve daily student problems or managing events that bring people together. I believe the best products sit at the intersection of technical excellence, user empathy, and design obsession.
           </p>
+
+          <div className="about-reveal bg-violet-50 dark:bg-violet-500/10 border border-violet-100 dark:border-violet-500/20 rounded-xl p-5" style={{ opacity: 0 }}>
+            <h4 className="text-violet-700 dark:text-violet-300 font-semibold mb-2 flex items-center gap-2">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-violet-500"></span>
+              </span>
+              Currently Building
+            </h4>
+            <p className="text-slate-700 dark:text-slate-300 text-sm">
+              Exploring the frontiers of AI integration and building intuitive, design-forward SaaS applications tailored for college life and beyond.
+            </p>
+          </div>
         </div>
 
         {/* Right Side: Visionary Alive Video */}
-        <div className="about-reveal hidden lg:flex w-full lg:w-[400px] xl:w-[450px] justify-end" style={{ opacity: 0 }}>
-          <div className="relative w-[360px] md:w-full rounded-2xl overflow-hidden shadow-2xl dark:shadow-[0_0_40px_rgba(139,92,246,0.3)] border border-violet-100 dark:border-violet-500/20 bg-slate-50 dark:bg-[#050508] animate-float group transition-transform duration-500 hover:scale-[1.02]">
+        <div className="about-reveal flex w-full lg:w-[400px] xl:w-[450px] justify-center lg:justify-end mt-12 lg:mt-0" style={{ opacity: 0 }}>
+          <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl dark:shadow-[0_0_40px_rgba(139,92,246,0.3)] border border-violet-100 dark:border-violet-500/20 bg-slate-50 dark:bg-[#050508] animate-float group transition-transform duration-500 hover:scale-[1.02]">
             {/* Alive pulse/glow overlay */}
             <div className="absolute inset-0 bg-gradient-to-tr from-violet-500/10 to-indigo-500/10 mix-blend-overlay z-10 pointer-events-none group-hover:opacity-100 opacity-60 transition-opacity duration-300 animate-pulse"></div>
             
             <video
+              ref={videoRef}
               src="/og.mov"
               autoPlay
               loop
               muted
               playsInline
-              className="w-full h-auto block relative z-0 rounded-2xl"
+              className="w-full h-auto aspect-video sm:aspect-auto object-cover sm:object-contain block relative z-0 rounded-2xl"
             />
           </div>
-        </div>
-      </div>
-
-      {/* ─── SKILLS SECTION ─── */}
-      <div className="skills-wrapper">
-        <div className="about-reveal flex items-center gap-3 mb-8" style={{ opacity: 0 }}>
-          <div className="h-px w-8 bg-violet-500" />
-          <span className="text-violet-600 dark:text-violet-400 text-xs font-bold tracking-widest uppercase">My Skills</span>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-12">
-          {SKILLS.map(({ category, items }) => (
-            <div key={category} className="about-reveal rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-8 hover:border-violet-300 dark:hover:border-violet-500/30 transition-colors shadow-sm dark:shadow-none" style={{ opacity: 0 }}>
-              <h3 className="text-slate-900 dark:text-white font-bold text-lg tracking-wider mb-6 flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
-                {category}
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {items.map((skill) => (
-                  <span
-                    key={skill}
-                    className="skill-tag text-sm font-semibold px-4 py-2 rounded-xl border border-violet-200 dark:border-violet-500/25 bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300 hover:border-violet-400 dark:hover:border-violet-400/80 hover:bg-violet-100 dark:hover:bg-violet-500/30 hover:text-violet-900 dark:hover:text-white hover:shadow-[0_0_15px_rgba(139,92,246,0.1)] dark:hover:shadow-[0_0_15px_rgba(139,92,246,0.2)] transition-all duration-300 cursor-default"
-                    style={{ opacity: 0 }}
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </section>

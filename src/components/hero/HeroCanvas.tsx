@@ -1,4 +1,4 @@
-import { Suspense, useRef, useCallback, useMemo } from 'react'
+import { Suspense, useRef, useCallback, useMemo, useState, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment, AdaptiveDpr } from '@react-three/drei'
 import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing'
@@ -7,12 +7,22 @@ import { Vector2 } from 'three'
 import GeometricShape from './GeometricShape'
 import ParticleCloud from './ParticleCloud'
 
-// Detect mobile/low-power devices once at module load time
-const isMobile = typeof window !== 'undefined' &&
-  (window.matchMedia('(hover: none), (pointer: coarse)').matches || window.innerWidth < 768)
-
 export default function HeroCanvas() {
   const mouse = useRef<[number, number]>([0, 0])
+  
+  const [isMobile, setIsMobile] = useState(() => 
+    typeof window !== 'undefined' && (window.matchMedia('(hover: none), (pointer: coarse)').matches || window.innerWidth < 768)
+  )
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(
+        window.matchMedia('(hover: none), (pointer: coarse)').matches || window.innerWidth < 768
+      )
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     mouse.current = [e.clientX - window.innerWidth / 2, e.clientY - window.innerHeight / 2]
@@ -28,8 +38,8 @@ export default function HeroCanvas() {
   // Responsive 3D position: center on mobile, offset right on desktop
   const shapeX = isMobile ? 0 : 3.5
 
-  // Mobile: cap DPR at 1 to save GPU, desktop: allow up to 2
-  const dpr = useMemo(() => isMobile ? [1, 1] as [number, number] : [1, 2] as [number, number], [])
+  // Mobile: cap DPR tightly to save GPU, desktop: allow up to 2
+  const dpr = useMemo(() => isMobile ? [0.8, 1] as [number, number] : [1, 2] as [number, number], [isMobile])
 
   return (
     <div className="absolute inset-0" onMouseMove={handleMouseMove} onTouchMove={handleTouchMove}>

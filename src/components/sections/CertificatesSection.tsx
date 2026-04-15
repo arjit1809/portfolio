@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FiX } from 'react-icons/fi'
+import { scramble } from '../../utils/scramble'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -68,6 +69,7 @@ export default function CertificatesSection() {
           <h2 className="cert-header text-4xl md:text-5xl font-black text-slate-900 dark:text-white leading-tight" style={{ opacity: 0 }}>
             My{' '}
             <span
+              onMouseEnter={(e) => scramble(e.currentTarget)}
               style={{
                 background: 'linear-gradient(135deg, #a78bfa, #818cf8)',
                 WebkitBackgroundClip: 'text',
