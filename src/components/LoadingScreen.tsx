@@ -47,6 +47,24 @@ export default function LoadingScreen({ onFinished }: LoadingScreenProps) {
     return () => clearTimeout(timer)
   }, [phase, onFinished])
 
+  useEffect(() => {
+    if (phase === 'done' || phase === 'fadeout') return
+
+    // Safety timeout: if we aren't done after 10s, force fadeout
+    const safety = setTimeout(() => {
+      console.warn('Loading safety timeout reached. Forcing fadeout.')
+      setPhase('fadeout')
+    }, 10000)
+
+    return () => clearTimeout(safety)
+  }, [phase])
+
+  const [showSkip, setShowSkip] = useState(false)
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSkip(true), 4000)
+    return () => clearTimeout(timer)
+  }, [])
+
   if (phase === 'done') return null
 
   const wrapperOpacity = phase === 'fadeout' ? 0 : 1
@@ -67,6 +85,30 @@ export default function LoadingScreen({ onFinished }: LoadingScreenProps) {
         transition: 'opacity 0.9s ease',
       }}
     >
+      {/* ── Skip Button ───────────────────────────────────────────────── */}
+      {showSkip && (
+        <button
+          onClick={() => setPhase('fadeout')}
+          style={{
+            position: 'absolute',
+            bottom: '10%',
+            right: '10%',
+            color: 'rgba(255,255,255,0.4)',
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            letterSpacing: '2px',
+            background: 'none',
+            border: 'none',
+            outline: 'none',
+            cursor: 'pointer',
+            padding: '10px',
+            zIndex: 10000,
+          }}
+        >
+          Skip Intro
+        </button>
+      )}
+
       {/* ── Shared media container — centred, constrained size ──────────── */}
       <div
         style={{
