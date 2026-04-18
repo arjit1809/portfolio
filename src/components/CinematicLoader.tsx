@@ -87,9 +87,14 @@ export default function CinematicLoader({ onFinish }: CinematicLoaderProps) {
              Q150 140 120 140" />
 
         {/* i */}
-        <path className="line" style={styles.path as React.CSSProperties}
-          d="M180 70 L180 120" />
-        <circle cx="180" cy="50" r="3" className="line" style={styles.path as React.CSSProperties} />
+        <path
+          className="line"
+          style={styles.path as React.CSSProperties}
+          d="
+            M180 120 L180 70
+            M180 55 a3 3 0 1 0 0.01 0
+          "
+        />
 
         {/* t */}
         <path className="line" style={styles.path as React.CSSProperties}
