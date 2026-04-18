@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState, useRef, useEffect } from 'react'
-import LoadingScreen from './components/LoadingScreen'
+import CinematicLoader from './components/CinematicLoader'
 // import { Analytics } from '@vercel/analytics/react'
 import Navbar from './components/Navbar'
 import HeroCanvas from './components/hero/HeroCanvas'
@@ -119,14 +119,33 @@ function useDoubleBackExit() {
 
 /* ─── App ──────────────────────────────────────────────────────────────── */
 export default function App() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Check if user has already seen the loader this session or permanently
+    const seen = localStorage.getItem('seenLoader')
+    if (seen) {
+      setLoading(false)
+    }
+  }, [])
+
+  const handleFinish = () => {
+    localStorage.setItem('seenLoader', 'true')
+    setLoading(false)
+  }
 
   useDoubleBackExit()
 
   return (
     <>
-      {/* ── Loading Screen ────────────────────────────────────────────── */}
-      {loading && <LoadingScreen onFinished={() => setLoading(false)} />}
+      {/* ── Cinematic Loader ────────────────────────────────────────────── */}
+      {loading && <CinematicLoader onFinish={handleFinish} />}
+
+      <div style={{ 
+        opacity: loading ? 0 : 1, 
+        transition: 'opacity 1s ease-in-out',
+        visibility: loading ? 'hidden' : 'visible'
+      }}>
 
       {/* ── Demon Slayer Infinity Breathing Background ────────────────── */}
       {/* Fixed z-0 canvas, pointer-events none — sits behind everything  */}
@@ -204,6 +223,7 @@ export default function App() {
       </main>
 
       <Footer />
+    </div>
     </>
   )
 }
