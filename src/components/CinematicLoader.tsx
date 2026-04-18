@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { animate, svg, stagger } from "animejs";
 
 interface CinematicLoaderProps {
@@ -6,157 +6,100 @@ interface CinematicLoaderProps {
 }
 
 export default function CinematicLoader({ onFinish }: CinematicLoaderProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const paths = document.querySelectorAll(".line") as NodeListOf<SVGPathElement>;
-
-    console.log("Loader started, paths found:", paths.length);
-
-    // DRAW ANIMATION
+    // Note: svg.createDrawable handles paths, circles, etc.
     animate(svg.createDrawable(".line"), {
-      // @ts-ignore - Anime.js v4 types
-      draw: ["0 0", "0 1"],
-      ease: "inOutQuad",
-      duration: 2200,
-      delay: stagger(180),
-      begin: () => console.log("Animation started"),
-      complete: () => console.log("Animation complete")
+      // @ts-ignore
+      draw: ["0 0", "0 1", "1 1"],
+      ease: "cubicBezier(0.65, 0, 0.35, 1)", // ✍️ natural hand motion
+      duration: 4200,
+      delay: stagger(300),
     });
 
-    // CANVAS
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let particles: Particle[] = [];
-
-    class Particle {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      life: number;
-      maxLife: number;
-
-      constructor(x: number, y: number, burstMode = false) {
-        this.x = x;
-        this.y = y;
-        this.vx = (Math.random() - 0.5) * (burstMode ? 6 : 1.5);
-        this.vy = (Math.random() - 0.5) * (burstMode ? 6 : 1.5);
-        this.life = burstMode ? 80 : 60;
-        this.maxLife = this.life;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.life--;
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 2.2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(180,100,255,${this.life / this.maxLife})`;
-        ctx.fill();
-      }
-    }
-
-    function getPoint(path: SVGPathElement, t: number) {
-      const length = path.getTotalLength();
-      return path.getPointAtLength(t * length);
-    }
-
-    let progress = 0;
-    let animationFrameId: number;
-
-    const loop = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      progress += 0.004;
-
-      paths.forEach((path) => {
-        const pt = getPoint(path, progress % 1);
-        const rect = path.getBoundingClientRect();
-
-        particles.push(
-          new Particle(pt.x + rect.left, pt.y + rect.top, false)
-        );
+    // subtle breathing glow
+    const glowTimer = setTimeout(() => {
+      animate(".line", {
+        opacity: [0.7, 1],
+        duration: 1500,
+        direction: "alternate",
+        loop: true,
+        ease: "inOutSine",
       });
+    }, 4300);
 
-      particles = particles.filter((p) => p.life > 0);
-
-      particles.forEach((p) => {
-        p.update();
-        p.draw();
-      });
-
-      animationFrameId = requestAnimationFrame(loop);
-    };
-
-    loop();
-
-    // 💥 BURST EFFECT
-    const burstTimeout = setTimeout(() => {
-      paths.forEach((path) => {
-        const rect = path.getBoundingClientRect();
-
-        for (let i = 0; i < 80; i++) {
-          particles.push(
-            new Particle(
-              rect.left + rect.width / 2,
-              rect.top + rect.height / 2,
-              true
-            )
-          );
-        }
-      });
-    }, 2400);
-
-    // 🌫️ EXIT TRANSITION
-    const exitTimeout = setTimeout(() => {
+    // cinematic exit
+    const exitTimer = setTimeout(() => {
       animate("#loaderRoot", {
         opacity: [1, 0],
-        scale: [1, 1.1],
-        filter: ["blur(0px)", "blur(10px)"],
-        duration: 900,
+        scale: [1, 1.04],
+        filter: ["blur(0px)", "blur(5px)"],
+        duration: 1000,
         ease: "easeInOutQuad",
-        complete: () => {
-          onFinish();
-        },
+        complete: () => onFinish(),
       });
-    }, 3000);
+    }, 6200);
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
-      clearTimeout(burstTimeout);
-      clearTimeout(exitTimeout);
+      clearTimeout(glowTimer);
+      clearTimeout(exitTimer);
     };
+
   }, [onFinish]);
 
   return (
     <div id="loaderRoot" style={styles.loader as React.CSSProperties}>
-      <canvas ref={canvasRef} style={styles.canvas as React.CSSProperties} />
-
-      <svg viewBox="0 0 600 150" style={styles.svg as React.CSSProperties}>
+      
+      <svg
+        viewBox="0 0 420 150"
+        preserveAspectRatio="xMidYMid meet"
+        style={styles.svg as React.CSSProperties}
+      >
         <defs>
           <linearGradient id="grad">
-            <stop offset="0%" stopColor="purple" />
-            <stop offset="100%" stopColor="white" />
+            <stop offset="0%" stopColor="#a855f7" />
+            <stop offset="100%" stopColor="#ffffff" />
           </linearGradient>
+
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
         </defs>
 
-        <path className="line" d="M20 120 L50 30 L80 120 M35 80 L65 80" stroke="white" fill="none" strokeWidth="2" />
-        <path className="line" d="M100 120 L100 60 Q100 40 120 40 Q140 40 140 60" stroke="white" fill="none" strokeWidth="2" />
-        <path className="line" d="M170 40 L170 110 Q170 140 150 140" stroke="white" fill="none" strokeWidth="2" />
-        <path className="line" d="M200 60 L200 120" stroke="white" fill="none" strokeWidth="2" />
-        <path className="line" d="M240 40 L240 120 M220 60 L260 60" stroke="white" fill="none" strokeWidth="2" />
+        {/* A (clear triangular form) */}
+        <path className="line" style={styles.path as React.CSSProperties}
+          d="M20 120 L45 30 L70 120 
+             M30 85 L60 85" />
+
+        {/* r */}
+        <path className="line" style={styles.path as React.CSSProperties}
+          d="M90 120 L90 70 
+             Q90 50 110 50 
+             Q125 50 125 70" />
+
+        {/* j */}
+        <path className="line" style={styles.path as React.CSSProperties}
+          d="M150 50 L150 110 
+             Q150 140 120 140" />
+
+        {/* i */}
+        <path className="line" style={styles.path as React.CSSProperties}
+          d="M180 70 L180 120" />
+        <circle cx="180" cy="50" r="3" className="line" style={styles.path as React.CSSProperties} />
+
+        {/* t */}
+        <path className="line" style={styles.path as React.CSSProperties}
+          d="M210 40 L210 120 
+             M190 70 L235 70" />
+
+        {/* dot */}
+        <circle cx="260" cy="120" r="3" className="line" style={styles.path as React.CSSProperties} />
       </svg>
+
     </div>
   );
 }
@@ -166,26 +109,21 @@ const styles = {
     position: "fixed",
     inset: 0,
     background: "#050505",
-    zIndex: 9999,
     display: "flex",
-    alignItems: "center",
     justifyContent: "center",
-  },
-  canvas: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    pointerEvents: "none",
+    alignItems: "center",
+    zIndex: 9999,
   },
   svg: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "min(600px, 90vw)",
-    height: "auto",
-    zIndex: 10,
+    width: "55vw",
+    maxWidth: "480px",
+  },
+  path: {
+    fill: "none",
+    stroke: "url(#grad)",
+    strokeWidth: 2.8,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    filter: "url(#glow)",
   },
 };

@@ -121,29 +121,16 @@ function useDoubleBackExit() {
 export default function App() {
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    // Check if user has already seen the loader this session or permanently
-    const seen = localStorage.getItem('seenLoader')
-    if (seen) {
-      setLoading(false)
-    }
-  }, [])
-
-  const handleFinish = () => {
-    localStorage.setItem('seenLoader', 'true')
-    setLoading(false)
-  }
-
   useDoubleBackExit()
 
   return (
     <>
       {/* ── Cinematic Loader ────────────────────────────────────────────── */}
-      {loading && <CinematicLoader onFinish={handleFinish} />}
+      {loading && <CinematicLoader onFinish={() => setLoading(false)} />}
 
       <div style={{ 
         opacity: loading ? 0 : 1, 
-        transition: 'opacity 1s ease-in-out',
+        transition: 'opacity 0.8s ease',
         visibility: loading ? 'hidden' : 'visible'
       }}>
 
